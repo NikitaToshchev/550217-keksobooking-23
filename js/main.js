@@ -59,22 +59,15 @@ const SIMILAR_OFFERS_COUNT = 10;
 
 // Функция, возвращающая случайное целое или дробное положительное число из переданного диапазона включительно
 const getRandomPositiveNum = (min, max, precision) => {
-  if (min < 0 || min >= max) {
-    throw new Error('Числа должны быть в диапазоне от меньшего к большему, положительные и отличаться друг от друга');
+  if (min < 0 || min > max) {
+    throw new Error('Числа должны быть в диапазоне от меньшего к большему и положительные');
   }
 
   const number = min + Math.random() * (max - min + 1);
   return !precision ? ~~number : number.toFixed(precision);
 };
 
-const getRandomNum = (min, max, precision) => {
-  const number = min + Math.random() * (max - min + 1);
-  return !precision ? ~~number : number.toFixed(precision);
-};
-
-const getRandomArrElement = function (arr) {
-  return arr[getRandomPositiveNum(0, arr.length - 1)];
-};
+const getRandomArrElement = (arr) => arr.length ? arr.splice(getRandomPositiveNum(0, arr.length - 1), 1).join('') : null;
 
 const getRandomArr = function (arr) {
   const lengthArr = getRandomPositiveNum(0, arr.length - 1);
@@ -85,12 +78,8 @@ const getRandomArr = function (arr) {
   return array;
 };
 
-const getRandomAvatar = function (arr) {
-  return arr.splice(getRandomNum(0, arr.length - 1), 1).join();
-};
-
 const createOffer = () => {
-  const getNumber = getRandomAvatar(NUMBERS);
+  const getNumber = getRandomArrElement(NUMBERS);
   const getLat = getRandomPositiveNum(35.65000, 35.70000, 5);
   const getLng = getRandomPositiveNum(139.70000, 139.80000, 5);
   const getPrice = getRandomPositiveNum(0, 100000);
@@ -130,3 +119,6 @@ const createOffer = () => {
 };
 
 const similarOffers = new Array(SIMILAR_OFFERS_COUNT).fill('').map(() => createOffer());
+similarOffers;
+
+// console.log(similarOffers);
