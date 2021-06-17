@@ -8,6 +8,14 @@ const TYPE = [
   'hotel',
 ];
 
+const TYPE_RU = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
+
 const CHECKIN = [
   '12:00',
   '13:00',
@@ -58,43 +66,35 @@ const DESCRIPTION = [
 ];
 
 const createOffer = () => {
-  const getNumber = getRandomArrElement(NUMBERS);
   const getLat = getRandomPositiveNum(35.65000, 35.70000, 5);
   const getLng = getRandomPositiveNum(139.70000, 139.80000, 5);
   const getPrice = getRandomPositiveNum(0, 100000);
   const getType = getRandomArrElement(TYPE);
-  const getRooms = getRandomPositiveNum(1, 10);
-  const getGuests = getRandomPositiveNum(1, 10);
-  const getCheckin = getRandomArrElement(CHECKIN);
-  const getCheckout = getRandomArrElement(CHECKOUT);
-  const getFeatures = getRandomArr(FEAUTERS);
-  const getDescription = getRandomArrElement(DESCRIPTION);
-  const getPhotos = getRandomArr(PHOTOS);
 
   return {
     author: {
-      avatar: `img/avatars/user${getNumber}.png`,
+      avatar: `img/avatars/user${getRandomArrElement(NUMBERS)}.png`,
     },
 
     offer: {
-      title: `Сдается ${getType} по цене ${getPrice}`,
+      title: 'Сдается жилье',
       address: `${getLat}, ${getLng}`,
       price: getPrice,
       type: getType,
-      rooms: getRooms,
-      guests: getGuests,
-      checkin: getCheckin,
-      checkout: getCheckout,
-      features: getFeatures,
-      description: getDescription,
-      photos: getPhotos,
+      rooms: getRandomPositiveNum(1, 10),
+      guests: getRandomPositiveNum(1, 10),
+      checkin: getRandomArrElement(CHECKIN),
+      checkout: getRandomArrElement(CHECKOUT),
+      features: getRandomArr(FEAUTERS),
+      description: getRandomArrElement(DESCRIPTION),
+      photos: getRandomArr(PHOTOS),
     },
 
     location: {
-      'lat': getLat,
-      'lng': getLng,
+      lat: getLat,
+      lng: getLng,
     },
   };
 };
 
-export { createOffer };
+export { createOffer, TYPE_RU };
