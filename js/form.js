@@ -1,18 +1,18 @@
-const isInactiveAdForm = () => {
+const disableAdForm = () => {
   const adForm = document.querySelector('.ad-form');
   adForm.classList.add('ad-form--disabled');
 
-  const adFormFieldsets = adForm.querySelectorAll('fieldset');
+  const adFormFieldsets = [...adForm.querySelectorAll('fieldset')];
   adFormFieldsets.forEach((fieldset) => {
     fieldset.disabled = true;
   });
 };
 
-const isInactiveMapFilters = () => {
+const disableMapFilters = () => {
   const mapFilters = document.querySelector('.map__filters');
   mapFilters.classList.add('map__filters--disabled');
 
-  const mapFiltersSelects = mapFilters.querySelectorAll('select');
+  const mapFiltersSelects = [...mapFilters.querySelectorAll('select')];
   mapFiltersSelects.forEach((select) => {
     select.disabled = true;
   });
@@ -20,26 +20,26 @@ const isInactiveMapFilters = () => {
   mapFiltersFieldsets.disabled = true;
 };
 
-const isActiveAdForm = () => {
+const enableAdForm = () => {
   const adForm = document.querySelector('.ad-form');
   adForm.classList.remove('ad-form--disabled');
 
-  const adFormFieldsets = adForm.querySelectorAll('fieldset');
+  const adFormFieldsets = [...adForm.querySelectorAll('fieldset')];
   adFormFieldsets.forEach((fieldset) => {
     fieldset.disabled = false;
   });
 };
 
-const isActiveMapFilters = () => {
+const enableMapFilters = () => {
   const mapFilters = document.querySelector('.map__filters');
   mapFilters.classList.remove('map__filters--disabled');
 
-  const mapFiltersSelects = mapFilters.querySelectorAll('select');
+  const mapFiltersSelects = [...mapFilters.querySelectorAll('select')];
   mapFiltersSelects.forEach((select) => {
     select.disabled = false;
   });
-  const mapFiltersFieldsets = mapFilters.querySelector('fieldset');
-  mapFiltersFieldsets.disabled = false;
+  const mapFiltersFieldset = mapFilters.querySelector('fieldset');
+  mapFiltersFieldset.disabled = false;
 };
 
-export { isInactiveAdForm, isInactiveMapFilters, isActiveAdForm, isActiveMapFilters };
+export { disableAdForm, disableMapFilters, enableAdForm, enableMapFilters };
