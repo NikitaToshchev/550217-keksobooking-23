@@ -10,7 +10,7 @@ const getRandomPositiveNum = (min, max, precision) => {
 
 const getRandomArrElement = (arr) => arr.length ? arr.splice(getRandomPositiveNum(0, arr.length - 1), 1).join('') : null;
 
-const getRandomArr = function (arr) {
+const getRandomArr = (arr) => {
   const lengthArr = getRandomPositiveNum(0, arr.length - 1);
   const array = [];
   for (let i = 0; i <= lengthArr; i++) {
