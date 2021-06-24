@@ -120,4 +120,19 @@ const validateСapacity = () => {
 roomsSelect.addEventListener('change', validateСapacity);
 capacitySelect.addEventListener('change', validateСapacity);
 
+const timeinSelect = document.querySelector('#timein');
+const timeoutSelect = document.querySelector('#timeout');
+
+const validateTimein = () => {
+  timeoutSelect.value = timeinSelect.value;
+};
+
+const validateTimeout = () => {
+  timeinSelect.value = timeoutSelect.value;
+};
+
+timeinSelect.addEventListener('change', validateTimein);
+timeoutSelect.addEventListener('change', validateTimeout);
+
+
 export { disableAdForm, disableMapFilters, enableAdForm, enableMapFilters };
