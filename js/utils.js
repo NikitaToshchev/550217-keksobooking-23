@@ -19,4 +19,6 @@ const getRandomArr = (arr) => {
   return array;
 };
 
-export { getRandomPositiveNum, getRandomArrElement, getRandomArr };
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+export { getRandomPositiveNum, getRandomArrElement, getRandomArr, isEscEvent };

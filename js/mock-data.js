@@ -8,14 +8,6 @@ const TYPE = [
   'hotel',
 ];
 
-const TYPE_RU = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalow: 'Бунгало',
-  hotel: 'Отель',
-};
-
 const CHECKIN = [
   '12:00',
   '13:00',
@@ -97,4 +89,4 @@ const createOffer = () => {
   };
 };
 
-export { createOffer, TYPE_RU };
+export { createOffer };

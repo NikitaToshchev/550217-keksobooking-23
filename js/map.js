@@ -1,15 +1,12 @@
-import { generateOffer } from './cards.js';
-import { createOffer } from './data.js';
+import { generateOffer } from './generate-offer.js';
 import { enableAdForm, enableMapFilters } from './form.js';
-
+import { getData } from './api.js';
+import { showMessageGetError } from './messages.js';
 
 const INITIAL_CORDS = {
   lat: 35.68950,
   lng: 139.69171,
 };
-
-const SIMILAR_OFFERS_COUNT = 10;
-const similarOffers = new Array(SIMILAR_OFFERS_COUNT).fill().map(createOffer);
 
 const map = L.map('map-canvas');
 
@@ -82,9 +79,13 @@ const createMarker = (offer) => {
   return marker;
 };
 
-similarOffers.forEach((offer) => {
-  createMarker(offer);
-});
+const createMarkers = (offers) => {
+  offers.forEach((offer) => {
+    createMarker(offer);
+  });
+};
+
+getData(createMarkers, showMessageGetError);
 
 const address = document.querySelector('#address');
 address.value = `${INITIAL_CORDS.lat}, ${INITIAL_CORDS.lng}`;
@@ -94,9 +95,7 @@ mainPinMarker.on('moveend', () => {
   address.value = `${pinCoords.lat.toFixed(5)}, ${pinCoords.lng.toFixed(5)}`;
 });
 
-const resetButton = document.querySelector('.ad-form__reset');
-
-resetButton.addEventListener('click', () => {
+const setInitialSettings = () => {
   address.value = `${INITIAL_CORDS.lat}, ${INITIAL_CORDS.lng}`;
 
   mainPinMarker.setLatLng({
@@ -108,4 +107,6 @@ resetButton.addEventListener('click', () => {
     lat: INITIAL_CORDS.lat,
     lng: INITIAL_CORDS.lng,
   }, 10);
-});
+};
+
+export { INITIAL_CORDS, setInitialSettings };
