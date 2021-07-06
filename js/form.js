@@ -1,3 +1,7 @@
+import { sendData } from './api.js';
+import { setInitialSettings } from './map.js';
+import { showMessageSendSuccess, showMessageSendError } from './messages.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
@@ -9,8 +13,9 @@ const MIN_PRICE_TYPE = {
   palace: 10000,
 };
 
+const adForm = document.querySelector('.ad-form');
+
 const disableAdForm = () => {
-  const adForm = document.querySelector('.ad-form');
   adForm.classList.add('ad-form--disabled');
 
   const adFormFieldsets = [...adForm.querySelectorAll('fieldset')];
@@ -32,7 +37,6 @@ const disableMapFilters = () => {
 };
 
 const enableAdForm = () => {
-  const adForm = document.querySelector('.ad-form');
   adForm.classList.remove('ad-form--disabled');
 
   const adFormFieldsets = [...adForm.querySelectorAll('fieldset')];
@@ -134,5 +138,20 @@ const validateTimeout = () => {
 timeinSelect.addEventListener('change', validateTimein);
 timeoutSelect.addEventListener('change', validateTimeout);
 
+const clearForm = () => {
+  adForm.reset();
+  setInitialSettings();
+  // сбросить фильтрацию
+  showMessageSendSuccess();
+};
+
+const resetButton = document.querySelector('.ad-form__reset');
+resetButton.addEventListener('click', () => setInitialSettings());
+
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
+  sendData(clearForm, showMessageSendError, formData);
+});
 
 export { disableAdForm, disableMapFilters, enableAdForm, enableMapFilters };

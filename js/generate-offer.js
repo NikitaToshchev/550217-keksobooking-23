@@ -1,4 +1,10 @@
-import { TYPE_RU } from './data.js';
+const TYPE_RU = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
 
 const generateOffer = (card) => {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
