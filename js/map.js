@@ -1,18 +1,18 @@
 import { generateOffer } from './generate-offer.js';
-import { enableAdForm, enableMapFilters } from './form.js';
-import { getData } from './api.js';
-import { showMessageGetError } from './messages.js';
+import { enableAdForm } from './form.js';
+import { compareOffers } from './filter.js';
 
 const INITIAL_CORDS = {
   lat: 35.68950,
   lng: 139.69171,
 };
 
+const SIMILAR_OFFERS_COUNT = 10;
+
 const map = L.map('map-canvas');
 
 map.on('load', () => {
   enableAdForm();
-  enableMapFilters();
 });
 
 map.setView({
@@ -80,12 +80,15 @@ const createMarker = (offer) => {
 };
 
 const createMarkers = (offers) => {
-  offers.forEach((offer) => {
-    createMarker(offer);
-  });
+  markerGroup.clearLayers();
+  offers.
+    slice()
+    .sort(compareOffers)
+    .slice(0, SIMILAR_OFFERS_COUNT)
+    .forEach((offer) => {
+      createMarker(offer);
+    });
 };
-
-getData(createMarkers, showMessageGetError);
 
 const address = document.querySelector('#address');
 address.value = `${INITIAL_CORDS.lat}, ${INITIAL_CORDS.lng}`;
@@ -109,4 +112,4 @@ const setInitialSettings = () => {
   }, 10);
 };
 
-export { INITIAL_CORDS, setInitialSettings };
+export { INITIAL_CORDS, setInitialSettings, createMarkers };

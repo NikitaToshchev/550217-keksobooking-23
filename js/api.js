@@ -4,7 +4,10 @@ const getData = (onSuccess, onFail) => {
     .then((offers) => {
       onSuccess(offers);
     })
-    .catch(() => onFail());
+    .catch((error) => {
+
+      onFail(error);
+    });
 };
 
 const sendData = (onSuccess, onFail, body) => {

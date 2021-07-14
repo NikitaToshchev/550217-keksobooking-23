@@ -141,7 +141,6 @@ timeoutSelect.addEventListener('change', validateTimeout);
 const clearForm = () => {
   adForm.reset();
   setInitialSettings();
-  // сбросить фильтрацию
   showMessageSendSuccess();
 };
 
