@@ -12,8 +12,6 @@ const filterGuests = mapFilters.querySelector('#housing-guests');
 const mapFeatures = document.querySelector('.map__features');
 const features = [...mapFeatures.querySelectorAll('input[type=checkbox]')];
 
-const getCheckedtFeatures = () => features.filter((feature) => feature.checked === true).map((feature) => feature.value);
-
 const filterOffers = ({ offer }) => {
   const matchType = offer.type === filterType.value || filterType.value === DEFAULT_VALUE;
 
@@ -43,19 +41,24 @@ const filterOffers = ({ offer }) => {
     }
   };
 
-  // const matchFeatures = () => {
-  //   const checkedtFeatures = getCheckedtFeatures();
-  // }
-
-  // && matchFeatures()
-
   const matchOffers = matchType && matchPrice() && mathRooms && mathGuests();
 
   return matchOffers;
 };
 
+const getCheckedFeatures = () => features.filter((feature) => feature.checked === true).map((feature) => feature.value);
+
 const getFilterOffers = (offers) => {
-  const filteredOffers = offers.filter(filterOffers);
+  let filteredOffers = offers.filter(filterOffers)
+
+  const checkedFeatures = getCheckedFeatures();
+  if (checkedFeatures.length) {
+    filteredOffers = filteredOffers
+      .filter(({ offer }) => offer.features?.length)
+      .filter(({ offer }) =>
+        checkedFeatures.every((feature) => offer.features.includes(feature))
+      )
+  }
   return filteredOffers;
 };
 
@@ -73,4 +76,4 @@ const setFilterChange = (cb) => {
   mapFilters.addEventListener('change', debounce(cb));
 };
 
-export { setFilterChange, compareOffers, getFilterOffers };
+export { setFilterChange, compareOffers, getFilterOffers }

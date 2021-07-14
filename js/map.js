@@ -112,4 +112,4 @@ const setInitialSettings = () => {
   }, 10);
 };
 
-export { INITIAL_CORDS, setInitialSettings, createMarkers };
+export { INITIAL_CORDS, setInitialSettings, createMarkers, map };

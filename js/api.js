@@ -23,7 +23,7 @@ const sendData = (onSuccess, onFail, body) => {
       onFail();
     }
   })
-    .catch(() => onFail());
+    .catch((error) => onFail(error));
 };
 
 export { getData, sendData };
