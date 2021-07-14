@@ -25,24 +25,23 @@ const filterOffers = ({ offer }) => {
     } else if (filterPrice.value === DEFAULT_VALUE) {
       return true;
     }
-  };
+  }
 
   const mathRooms = offer.rooms === Number(filterRooms.value) || filterRooms.value === DEFAULT_VALUE;
 
   const mathGuests = () => {
     if (filterGuests.value === '1') {
-      return offer.guests === 1;
+      return offer.guests === 1
     } else if (filterGuests.value === '2') {
-      return offer.guests === 2;
+      return offer.guests === 2
     } else if (filterGuests.value === '0') {
-      offer.guests >= 100;
+      offer.guests >= 100
     } else if (filterGuests.value === DEFAULT_VALUE) {
       return true;
     }
   };
 
   const matchOffers = matchType && matchPrice() && mathRooms && mathGuests();
-
   return matchOffers;
 };
 
@@ -51,7 +50,7 @@ const getCheckedFeatures = () => features.filter((feature) => feature.checked ==
 const getFilterOffers = (offers) => {
   let filteredOffers = offers.filter(filterOffers)
 
-  const checkedFeatures = getCheckedFeatures();
+  const checkedFeatures = getCheckedFeatures()
   if (checkedFeatures.length) {
     filteredOffers = filteredOffers
       .filter(({ offer }) => offer.features?.length)
