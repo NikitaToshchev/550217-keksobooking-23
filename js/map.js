@@ -1,5 +1,5 @@
 import { generateOffer } from './generate-offer.js';
-import { enableAdForm, disableAdForm } from './form.js';
+import { enableAdForm } from './form.js';
 import { compareOffers } from './filter.js';
 
 const INITIAL_CORDS = {
@@ -10,24 +10,7 @@ const INITIAL_CORDS = {
 const SIMILAR_OFFERS_COUNT = 10;
 
 const map = L.map('map-canvas');
-
-disableAdForm();
-
-map.on('load', () => {
-  enableAdForm();
-});
-
-map.setView({
-  lat: INITIAL_CORDS.lat,
-  lng: INITIAL_CORDS.lng,
-}, 10);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const markerGroup = L.layerGroup();
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -46,9 +29,23 @@ const mainPinMarker = L.marker(
   },
 );
 
-mainPinMarker.addTo(map);
+const initMap = () => {
+  map.on('load', () => {
+    enableAdForm();
+  }).setView({
+    lat: INITIAL_CORDS.lat,
+    lng: INITIAL_CORDS.lng,
+  }, 10);
 
-const markerGroup = L.layerGroup().addTo(map);
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+  mainPinMarker.addTo(map);
+  markerGroup.addTo(map);
+};
 
 const createMarker = (offer) => {
   const { location } = offer;
@@ -114,4 +111,4 @@ const setInitialSettings = () => {
   }, 10);
 };
 
-export { setInitialSettings, createMarkers };
+export { setInitialSettings, createMarkers, initMap };
