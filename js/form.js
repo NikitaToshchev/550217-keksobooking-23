@@ -57,8 +57,6 @@ const enableMapFilters = () => {
   mapFiltersFieldset.disabled = false;
 };
 
-// Валидация
-
 const titleInput = document.querySelector('#title');
 
 titleInput.addEventListener('input', () => {

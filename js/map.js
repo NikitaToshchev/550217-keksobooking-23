@@ -1,5 +1,5 @@
 import { generateOffer } from './generate-offer.js';
-import { enableAdForm } from './form.js';
+import { enableAdForm, disableAdForm } from './form.js';
 import { compareOffers } from './filter.js';
 
 const INITIAL_CORDS = {
@@ -10,6 +10,8 @@ const INITIAL_CORDS = {
 const SIMILAR_OFFERS_COUNT = 10;
 
 const map = L.map('map-canvas');
+
+disableAdForm();
 
 map.on('load', () => {
   enableAdForm();
@@ -112,4 +114,4 @@ const setInitialSettings = () => {
   }, 10);
 };
 
-export { INITIAL_CORDS, setInitialSettings, createMarkers, map };
+export { setInitialSettings, createMarkers };
