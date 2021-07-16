@@ -1,31 +1,16 @@
 import { generateOffer } from './generate-offer.js';
-import { enableAdForm, enableMapFilters } from './form.js';
-import { getData } from './api.js';
-import { showMessageGetError } from './messages.js';
+import { enableAdForm } from './form.js';
+import { compareOffers } from './filter.js';
 
 const INITIAL_CORDS = {
   lat: 35.68950,
   lng: 139.69171,
 };
 
+const SIMILAR_OFFERS_COUNT = 10;
+
 const map = L.map('map-canvas');
-
-map.on('load', () => {
-  enableAdForm();
-  enableMapFilters();
-});
-
-map.setView({
-  lat: INITIAL_CORDS.lat,
-  lng: INITIAL_CORDS.lng,
-}, 10);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const markerGroup = L.layerGroup();
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -44,9 +29,23 @@ const mainPinMarker = L.marker(
   },
 );
 
-mainPinMarker.addTo(map);
+const initMap = () => {
+  map.on('load', () => {
+    enableAdForm();
+  }).setView({
+    lat: INITIAL_CORDS.lat,
+    lng: INITIAL_CORDS.lng,
+  }, 10);
 
-const markerGroup = L.layerGroup().addTo(map);
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+  mainPinMarker.addTo(map);
+  markerGroup.addTo(map);
+};
 
 const createMarker = (offer) => {
   const { location } = offer;
@@ -80,12 +79,15 @@ const createMarker = (offer) => {
 };
 
 const createMarkers = (offers) => {
-  offers.forEach((offer) => {
-    createMarker(offer);
-  });
+  markerGroup.clearLayers();
+  offers.
+    slice()
+    .sort(compareOffers)
+    .slice(0, SIMILAR_OFFERS_COUNT)
+    .forEach((offer) => {
+      createMarker(offer);
+    });
 };
-
-getData(createMarkers, showMessageGetError);
 
 const address = document.querySelector('#address');
 address.value = `${INITIAL_CORDS.lat}, ${INITIAL_CORDS.lng}`;
@@ -109,4 +111,4 @@ const setInitialSettings = () => {
   }, 10);
 };
 
-export { INITIAL_CORDS, setInitialSettings };
+export { setInitialSettings, createMarkers, initMap };

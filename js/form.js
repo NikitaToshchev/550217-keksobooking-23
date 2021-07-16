@@ -57,8 +57,6 @@ const enableMapFilters = () => {
   mapFiltersFieldset.disabled = false;
 };
 
-// Валидация
-
 const titleInput = document.querySelector('#title');
 
 titleInput.addEventListener('input', () => {
@@ -141,7 +139,6 @@ timeoutSelect.addEventListener('change', validateTimeout);
 const clearForm = () => {
   adForm.reset();
   setInitialSettings();
-  // сбросить фильтрацию
   showMessageSendSuccess();
 };
 

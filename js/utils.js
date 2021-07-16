@@ -1,4 +1,3 @@
-// Функция, возвращающая случайное целое или дробное положительное число из переданного диапазона включительно
 const getRandomPositiveNum = (min, max, precision) => {
   if (min < 0 || min > max) {
     throw new Error('Числа должны быть в диапазоне от меньшего к большему и положительные');
@@ -21,4 +20,13 @@ const getRandomArr = (arr) => {
 
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-export { getRandomPositiveNum, getRandomArrElement, getRandomArr, isEscEvent };
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { getRandomPositiveNum, getRandomArrElement, getRandomArr, isEscEvent, debounce };
