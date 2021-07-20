@@ -8,6 +8,7 @@ const onMessageHide = (evt) => {
     evt.preventDefault();
     message.remove();
     document.removeEventListener('keydown', onMessageHide);
+    document.removeEventListener('click', onMessageHide);
   }
 };
 

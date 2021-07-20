@@ -7,6 +7,11 @@ const INITIAL_CORDS = {
   lng: 139.69171,
 };
 
+const MAIN_PIN_WIDTH = 52;
+const MAIN_PIN_HEIGHT = 52;
+const PIN_WIDTH = 40;
+const PIN_HEIGHT = 40;
+
 const SIMILAR_OFFERS_COUNT = 10;
 
 const map = L.map('map-canvas');
@@ -14,8 +19,8 @@ const markerGroup = L.layerGroup();
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT],
+  iconAnchor: [MAIN_PIN_WIDTH / 2, MAIN_PIN_HEIGHT],
 });
 
 const mainPinMarker = L.marker(
@@ -52,8 +57,8 @@ const createMarker = (offer) => {
 
   const pinIcon = L.icon({
     iconUrl: '../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [PIN_WIDTH, PIN_HEIGHT],
+    iconAnchor: [PIN_WIDTH / 2, PIN_HEIGHT],
   });
 
   const marker = L.marker(

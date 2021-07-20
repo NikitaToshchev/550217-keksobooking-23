@@ -18,6 +18,7 @@ const generateOffer = (card) => {
   const popupTextCapacity = cardElement.querySelector('.popup__text--capacity');
   const popupTextTime = cardElement.querySelector('.popup__text--time');
   const popupDescription = cardElement.querySelector('.popup__description');
+  const popupFeatures = [...cardElement.querySelectorAll('.popup__feature')];
 
   card.author.avatar ? popupAvatar.src = card.author.avatar : popupAvatar.style.display = 'none';
   card.offer.title ? popupTitle.textContent = card.offer.title : popupTitle.style.display = 'none';
@@ -29,7 +30,7 @@ const generateOffer = (card) => {
 
   if (card.offer.features) {
     const modifiers = card.offer.features.map((feature) => `popup__feature--${feature}`);
-    cardTemplate.querySelectorAll('.popup__feature').forEach((item) => {
+    popupFeatures.forEach((item) => {
       const modifier = item.classList[1];
       if (!modifiers.includes(modifier)) {
         item.remove();
@@ -47,7 +48,7 @@ const generateOffer = (card) => {
     popupPhotos.innerHTML = '';
     card.offer.photos.map((photo) => {
       const photoElement = photoTemplate.cloneNode(true);
-      photoElement.setAttribute('src', photo);
+      photoElement.src = photo;
       popupPhotos.appendChild(photoElement);
     });
   } else {

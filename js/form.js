@@ -1,6 +1,8 @@
 import { sendData } from './api.js';
-import { setInitialSettings } from './map.js';
+import { setInitialSettings, initMap } from './map.js';
 import { showMessageSendSuccess, showMessageSendError } from './messages.js';
+import { clearPreview } from './preview.js';
+import { clearFilter } from './filter.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -12,6 +14,14 @@ const MIN_PRICE_TYPE = {
   house: 5000,
   palace: 10000,
 };
+
+const ZERO_GUEST = 0;
+const ONE_GUEST = 1;
+const THREE_GUESTS = 3;
+const ONE_ROOM = 1;
+const TWO_ROOMS = 2;
+const THREE_ROOMS = 3;
+const HUNDRED_ROOMS = 100;
 
 const adForm = document.querySelector('.ad-form');
 
@@ -92,25 +102,28 @@ priceInput.addEventListener('input', () => {
   priceInput.reportValidity();
 });
 
-typeSelect.addEventListener('change', () => {
+const onPriceValueSet = () => {
   priceInput.min = MIN_PRICE_TYPE[typeSelect.value];
   priceInput.placeholder = MIN_PRICE_TYPE[typeSelect.value];
-});
+};
+
+window.addEventListener('load', onPriceValueSet);
+typeSelect.addEventListener('change', onPriceValueSet);
 
 const roomsSelect = document.querySelector('#room_number');
 const capacitySelect = document.querySelector('#capacity');
 
-const validateСapacity = () => {
+const onCapacityValidate = () => {
   const rooms = + roomsSelect.value;
   const guests = + capacitySelect.value;
 
-  if (rooms === 1 && guests !== 1) {
+  if (rooms === ONE_ROOM && guests !== ONE_GUEST) {
     capacitySelect.setCustomValidity('Значение м.б.только для «для 1 гостя»');
-  } else if (rooms === 2 && guests === 0 || rooms === 2 && guests === 3) {
+  } else if (rooms === TWO_ROOMS && guests === ZERO_GUEST || rooms === TWO_ROOMS && guests === THREE_GUESTS) {
     capacitySelect.setCustomValidity('Значение м.б. только «для 2 гостей» или «для 1 гостя»');
-  } else if (rooms === 3 && guests === 0) {
+  } else if (rooms === THREE_ROOMS && guests === ZERO_GUEST) {
     capacitySelect.setCustomValidity('Значение м.б. только «для 3 гостей», «для 2 гостей» или «для 1 гостя»');
-  } else if (rooms === 100 && guests !== 0) {
+  } else if (rooms === HUNDRED_ROOMS && guests !== ZERO_GUEST) {
     capacitySelect.setCustomValidity('Значение м.б.только «не для гостей»');
   } else {
     capacitySelect.setCustomValidity('');
@@ -119,31 +132,42 @@ const validateСapacity = () => {
   capacitySelect.reportValidity();
 };
 
-roomsSelect.addEventListener('change', validateСapacity);
-capacitySelect.addEventListener('change', validateСapacity);
+roomsSelect.addEventListener('change', onCapacityValidate);
+capacitySelect.addEventListener('change', onCapacityValidate);
 
 const timeinSelect = document.querySelector('#timein');
 const timeoutSelect = document.querySelector('#timeout');
 
-const validateTimein = () => {
+const onTimeinValidate = () => {
   timeoutSelect.value = timeinSelect.value;
 };
 
-const validateTimeout = () => {
+const onTimeoutValidate = () => {
   timeinSelect.value = timeoutSelect.value;
 };
 
-timeinSelect.addEventListener('change', validateTimein);
-timeoutSelect.addEventListener('change', validateTimeout);
+timeinSelect.addEventListener('change', onTimeinValidate);
+timeoutSelect.addEventListener('change', onTimeoutValidate);
 
 const clearForm = () => {
   adForm.reset();
+  onPriceValueSet();
+  clearFilter();
+  clearPreview();
   setInitialSettings();
   showMessageSendSuccess();
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', () => setInitialSettings());
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  onPriceValueSet();
+  clearPreview();
+  clearFilter();
+  initMap();
+  setInitialSettings();
+});
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -151,4 +175,4 @@ adForm.addEventListener('submit', (evt) => {
   sendData(clearForm, showMessageSendError, formData);
 });
 
-export { disableAdForm, disableMapFilters, enableAdForm, enableMapFilters };
+export { disableAdForm, disableMapFilters, enableAdForm, enableMapFilters, ZERO_GUEST, ONE_GUEST };
